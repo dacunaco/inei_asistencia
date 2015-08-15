@@ -19,9 +19,11 @@ class User extends CI_Controller {
         if (count($usuario) > 0) {
             if($this->compare_crypt($this->input->post('password'), $usuario[0]->password)){
             	$this->session->set_userdata(array(
-                    'user_name'     =>  $usuario[0]->personal->nombre,
+                    'user_id'       =>  $usuario[0]->personal->dni,
+                    'user_name'     =>  $usuario[0]->personal->nombres,
                     'user_ape_pat'  =>  $usuario[0]->personal->apellido_paterno,
-                    'user_ape_mat'  =>  $usuario[0]->personal->apellido_materno
+                    'user_ape_mat'  =>  $usuario[0]->personal->apellido_materno,
+                    'user_correo'  =>  $usuario[0]->personal->correo
                 ));
 	            $resp = array("rep" => 1, "msg" => "Datos correctos, redireccionando...");
             }else{
@@ -40,7 +42,7 @@ class User extends CI_Controller {
         redirect('usuario');
     }
 
-    public function compare_crypt($pwd, $salt){
+    private function compare_crypt($pwd, $salt){
     	if(crypt($pwd, $salt) == $salt) {  
 			return true; 
 		}else{

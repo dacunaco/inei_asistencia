@@ -83,7 +83,7 @@ class CI_Controller {
 		$ci =&get_instance();
 		$userSession = $this->session->userdata('user_name');
         	if((empty($userSession)) && $ci->router->fetch_class() != 'user'  ){  header('Location:'.  base_url().'usuario');}
-        	if((!empty($userSession)) && $ci->router->fetch_class() == 'user'  ){   header('Location:'.  base_url());}
+        	if((!empty($userSession)) && $ci->router->fetch_class() == 'user'  ){ header('Location:'.  base_url());}
 
 		log_message('info', 'Controller Class Initialized');
 	}
