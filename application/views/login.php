@@ -48,12 +48,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.js"></script>-->
+  
+    <script type="text/ng-template" id="message.tmpl.html"><md-dialog aria-label="Mensaje del sistema">
+      <form>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2>Mensaje del sistema</h2>
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="close()">
+            <ng-md-icon size="24" icon="clear" aria-label="Cerrar"></ng-md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-dialog-content style="max-width:400px;max-height:100%;">
+        <div layout="column" layout-align="center center" layout-padding>
+          <md-progress-circular class="md-warn" md-mode="indeterminate"></md-progress-circular>
+          <h4>{{mensaje}}</h4>
+        </div>
+      </md-dialog-content>
+
+      <div class="md-actions" layout="row">
+        <md-button ng-click="close()">
+          Cerrar
+        </md-button>
+      </div>
+      </form>
+    </md-dialog>
+    </script>
 
     <script src="<?= base_url()?>assets/bower_components/angular/angular.min.js"></script>
     <script src="<?= base_url()?>assets/bower_components/angular-animate/angular-animate.min.js"></script>
     <script src="<?= base_url()?>assets/bower_components/angular-aria/angular-aria.min.js"></script>
 
     <script src="<?= base_url()?>assets/bower_components/angular-material/angular-material.min.js"></script>
+    <script src="<?= base_url()?>assets/admin/angular-material-icons.min.js"></script>
 
     <script src="<?= base_url()?>dist/scripts.min.js"></script>
   </body>

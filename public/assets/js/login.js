@@ -4,32 +4,38 @@ var login = angular.module('loginApp', ['ngAnimate', 'ngMaterial'])
         $mdSidenav(menuId).toggle();
     };
 
-    $scope.mostrarAlerta = function(mensaje) {
-      alert = $mdDialog.alert()
-        .title('Mensaje del Sistema')
-        .content(mensaje)
-        .ok('Cerrar');
-
-      $mdDialog
-          .show( alert )
-          .finally(function() {
-            alert = undefined;
-          });
-    }
+    $scope.showAlert = function(mensaje) {
+      $mdDialog.show({
+        controller: DialogController,
+        templateUrl: 'message.tmpl.html',
+        parent: angular.element(document.body),
+        resolve: {
+          mensaje : function () {
+            return mensaje;
+          }
+        },
+        clickOutsideToClose:true
+      })
+      .then(function(answer) {
+        console.log(answer);
+      }, function() {
+        console.log('Error');
+      });
+    };
 
     $scope.login = function(user){
-    	$scope.mostrarAlerta('Validando datos...');
+    	$scope.showAlert('Validando datos...');
         $timeout(function() {
         	authFactory.login(user).then(function(res){
                 console.log(res);
                 if(res.data.rep == 1){
-                    $scope.mostrarAlerta('Datos correctos. Redireccionando...');
+                    $scope.showAlert('Datos correctos. Redireccionando...');
                     $timeout(function() {
                         $window.location.reload();
                       }, 1000);
                 }else if(res.data.rep == 0){
                     $timeout(function() {
-                        $scope.mostrarAlerta(res.data.msg);
+                        $scope.showAlert(res.data.msg);
                       }, 10);
                     
                 }
@@ -60,3 +66,11 @@ var login = angular.module('loginApp', ['ngAnimate', 'ngMaterial'])
 		}
 	}
   });
+
+function DialogController($scope, $mdDialog, mensaje) {
+  $scope.close = function() {
+    $mdDialog.cancel();
+  };
+
+  $scope.mensaje = mensaje;
+}

@@ -3,7 +3,7 @@ var app = angular.module('administradorApp', ['ngMaterial', 'ngMdIcons']);
 app.controller('asistenciaController', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog', '$http', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http){
   $scope.datos = "";
   $scope.resultado = false;
-  $scope.respuesta = false;
+  $scope.foto = false;
 
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
@@ -16,9 +16,11 @@ app.controller('asistenciaController', ['$scope', '$mdBottomSheet','$mdSidenav',
     }
   ];
 
-  $scope.alert = '';
-  $scope.showOptios = function($event) {
-    $scope.alert = '';
+  $scope.settings = [
+    { name: 'Wi-Fi', extraScreen: 'Wi-fi menu', icon: 'network-wifi'},
+    { name: 'Bluetooth', extraScreen: 'Bluetooth menu', icon: 'bluetooth'}];
+
+  $scope.showOptions = function($event) {
     $mdBottomSheet.show({
       template: '<md-bottom-sheet class="md-grid"><md-list><md-list-item ng-repeat="item in items"><md-button class="md-grid-item-content" ng-click="listItemClick($index)"><ng-md-icon style="fill:{{ item.color }}" size="48" icon="{{item.icon}}"></ng-md-icon><div class="md-grid-text"> {{ item.name }} </div></md-button></md-list-item></md-list></md-bottom-sheet>',
       controller: 'OpcionesController',
@@ -30,27 +32,41 @@ app.controller('asistenciaController', ['$scope', '$mdBottomSheet','$mdSidenav',
 
   $scope.asistencia = function(datos) {
     $http.post('schedule/registrar', datos).success(function (response) {
-      console.log(response.data[0]);
-      $scope.respuesta = true;
+      console.log(response);
       $scope.codigo = response.code;
       if(response.code == 2){
-        $scope.mensaje = 'Hubo un error en la conexión con el servidor';
-        $scope.resultado = false;
+        $scope.mensaje = 'Se registró la asistencia con tardanza';
+        $scope.resultado = true;
+        $scope.nombre = response.data.personal[0].personal;
+        $scope.dni = response.data.personal[0].dni;
+        $scope.cargo = response.data.personal[0].cargo;
+        $scope.foto = response.data.foto;
+        $scope.fecha_hora = response.data.asistencia.fecha_hora;
+        $scope.proyecto = response.data.personal[0].nombre_proyecto;
       }else if(response.code == 0){
         $scope.mensaje = 'No se encuentra registrado';
         $scope.resultado = false;
+        $scope.foto = false
       }else if(response.code == 3){
         $scope.mensaje = 'Ya se registro la asistencia';
         $scope.resultado = true;
-        $scope.nombre = response.data[0].nombres;
-        $scope.dni = response.data[0].dni;
-        $scope.cargo = response.data[0].cargo;
+        $scope.nombre = response.data.personal[0].personal;
+        $scope.dni = response.data.personal[0].dni;
+        $scope.cargo = response.data.personal[0].cargo;
+        $scope.foto = response.data.foto;
+        $scope.fecha_hora = response.data.asistencia[0].fecha_hora;
+        $scope.proyecto = response.data.personal[0].nombre_proyecto;
+
       }else if(response.code == 1){
         $scope.mensaje = 'Se registro la asistencia correctamente';
         $scope.resultado = true;
-        $scope.nombre = response.data[0].nombres;
-        $scope.dni = response.data[0].dni;
-        $scope.cargo = response.data[0].cargo;
+        $scope.nombre = response.data.personal[0].personal;
+        $scope.dni = response.data.personal[0].dni;
+        $scope.cargo = response.data.personal[0].cargo;
+        $scope.foto = response.data.foto;
+        $scope.fecha_hora = response.data.asistencia.fecha_hora;
+        $scope.proyecto = response.data.personal[0].nombre_proyecto;
+
       }
 
       $scope.datos.dni = "";

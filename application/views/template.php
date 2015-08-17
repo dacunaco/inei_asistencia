@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <head>
     <meta charset="utf-8">
     <title>.:: INEI | Panel ::.</title>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css">
+    <link rel="stylesheet" href="<?= base_url()?>assets/admin/angular-material.min.css">
     <link rel="stylesheet" href="<?= base_url()?>assets/custom.css">
     <link href="<?= base_url()?>assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
   </head>
@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <md-button aria-label="Search" ng-click="showSearch = !showSearch">
             <ng-md-icon icon="search"></ng-md-icon>
           </md-button>
-          <md-button aria-label="Abrir opciones" ng-click="showOptios($event)">
+          <md-button aria-label="Abrir opciones" ng-click="showOptions($event)">
             <ng-md-icon icon="more_vert"></ng-md-icon>
           </md-button>
         </div>
@@ -80,30 +80,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form name="asistenciaForm" novalidate ng-submit="asistencia(datos)">
               <md-input-container>
                 <label>Ingrese el DNI</label>
-                <input type="text" id="dni" name="dni" ng-model="datos.dni" autofocus/>
+                <input type="text" id="dni" name="dni" ng-model="datos.dni" autofocus ng-required="true"/>
               </md-input-container>
             </form>
             <div class="bs-callout bs-callout-{{(codigo == 0) ? 'danger' : (codigo == 2) ? 'info' : (codigo == 1) ? 'success' : 'warning'}} md-whiteframe-z2" ng-show="mensaje">
               <h4>Mensaje : {{mensaje | uppercase}}</h4>
-              <div layout="row" ng-show="mensaje" layout-padding>
+              <div layout="row" ng-show="resultado" layout-padding>
                 <div layout="column" flex="25" layout-align="center center">
-                  <img class="img-perfil md-whiteframe-z2" src="<?= base_url()?>assets/photos/{{dni}}.jpg" alt="{{dni}}" width="180">
+                  <img ng-show="foto == true" class="img-perfil md-whiteframe-z2" src="assets/photos/{{dni}}.jpg" alt="{{dni}}" width="180">
+                  <ng-md-icon ng-show="foto == false" style="fill:#0080FF" size="180" icon="account_circle"></ng-md-icon>
                 </div>
                 <div flex>
-                  [flex]
+                  <h4 style="text-align: center">{{proyecto}}</h4>
+                  <ul>
+                    <li>{{nombre | uppercase}}</li>
+                    <li>{{dni | uppercase}}</li>
+                    <li>{{cargo | uppercase}}</li>
+                  </ul>
+                  <h2 style="text-align: center">{{fecha_hora}}</h2>
                 </div>
               </div>
             </div>
           </md-content>
       </md-content>
     </div>
+    
     <!-- Angular Material Dependencies -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-aria.min.js"></script>
+    <script src="<?= base_url()?>assets/admin/angular.min.js"></script>
+    <script src="<?= base_url()?>assets/admin/angular-animate.min.js"></script>
+    <script src="<?= base_url()?>assets/admin/angular-aria.min.js"></script>
 
-    <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.5.0/angular-material-icons.min.js"></script> 
+    <script src="<?= base_url()?>assets/admin/angular-material.min.js"></script>
+    <script src="<?= base_url()?>assets/admin/angular-material-icons.min.js"></script> 
     <script src="<?= base_url()?>dist/scripts.min.js"></script>
   </body>
 </html>
