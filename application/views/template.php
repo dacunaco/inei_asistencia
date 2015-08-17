@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </md-toolbar>
       <md-list>
       <md-item ng-repeat="item in menu">
-        <a>
+        <a ng-click="redirect(item.action)">
           <md-item-content md-ink-ripple layout="row" layout-align="start center">
             <div class="inset">
               <ng-md-icon icon="{{item.icon}}"></ng-md-icon>

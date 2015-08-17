@@ -1,6 +1,6 @@
 var app = angular.module('administradorApp', ['ngMaterial', 'ngMdIcons']);
 
-app.controller('asistenciaController', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog', '$http', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http){
+app.controller('asistenciaController', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog', '$http', '$window', function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $http, $window){
   $scope.datos = "";
   $scope.resultado = false;
   $scope.foto = false;
@@ -10,11 +10,15 @@ app.controller('asistenciaController', ['$scope', '$mdBottomSheet','$mdSidenav',
   };
     $scope.menu = [
     {
-      link : '/',
+      action : '/',
       title: 'Control de asistencia',
       icon: 'dashboard'
     }
   ];
+
+  $scope.redirect = function (ref) {
+    $window.location.href = ref;
+  };
 
   $scope.settings = [
     { name: 'Wi-Fi', extraScreen: 'Wi-fi menu', icon: 'network-wifi'},
